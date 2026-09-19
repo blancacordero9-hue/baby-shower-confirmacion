@@ -48,7 +48,7 @@ with columna_centro:
         use_container_width=True )
 st.divider()
 nombre= st.text_input("Nombre de quien confirma")
-telefono = st.text_input ("Número de quien confirma")
+telefono = st.text_input ("Número telefónico de quien confirma")
 asistencia = st.radio("¿Asistirás?", ["Sí", "No"])
 
 if asistencia=="Sí":
