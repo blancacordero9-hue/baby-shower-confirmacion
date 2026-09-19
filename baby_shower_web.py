@@ -48,7 +48,7 @@ with columna_centro:
         use_container_width=True )
 st.divider()
 nombre= st.text_input("Nombre de quien confirma")
-telefono = st.text_input ("Número telefónico de quien confirma")
+telefono = st.text_input ("Número telefónico de quien confirma", max_chars=10)
 asistencia = st.radio("¿Asistirás?", ["Sí", "No"])
 
 if asistencia=="Sí":
@@ -60,8 +60,15 @@ mensaje= st.text_area("Mensaje para los papás (opcional)")
 
 boton = st.button("Confirmar asistencia")
 if boton:
-    if nombre=="" or telefono=="":
-        st.error("Por favor escribe tu nombnre y teléfono.")
+    nombre = nombre.strip()
+    telefono = telefono.strip()
+
+    if nombre == "" or telefono == "":
+        st.error("Por favor escribe tu nombre y teléfono.")
+
+    elif not telefono.isdigit() or len(telefono) != 10:
+        st.error("Por favor coloca un número telefónico de exactamente 10 dígitos.")
+
     else:
         datos = {"nombre": nombre,
             "telefono": telefono,
@@ -71,6 +78,7 @@ if boton:
 
         supabase.table("confirmaciones").upsert(
             datos,
-            on_conflict="telefono").execute()
+            on_conflict="telefono"
+        ).execute()
 
         st.success("¡Gracias! Tu respuesta quedó guardada.")
